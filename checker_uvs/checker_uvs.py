@@ -50,6 +50,10 @@ def create_ui():
     right_layout.addWidget(button_check_uv_map)
     button_check_uv_map.clicked.connect(on_button_check_uv_map)
     
+    button_freeze_transformations = QtWidgets.QPushButton("Freeze Transformations")
+    right_layout.addWidget(button_freeze_transformations)
+    button_freeze_transformations.clicked.connect(on_button_freeze_transformations)
+    
     button_clear = QtWidgets.QPushButton("Clear")
     right_layout.addWidget(button_clear)
     button_clear.clicked.connect(on_button_clear)
@@ -70,7 +74,7 @@ def on_button_delete_history():
         cmds.delete(select_group,constructionHistory = True)
         
     cmds.select(d=True)
-    label.setText('Select Group Object')
+    label.setText('Delete history success')
         
 def on_button_check_uvs():
     list_widget.clear()
@@ -218,6 +222,16 @@ def on_button_check_uv_map():
     cmds.select(uv_map, add=True)
     display_results(uv_map=uv_map)
     label.setText("UV Map have space : " + str(len(uv_map)))
+    
+def on_button_freeze_transformations():
+    list_widget.clear()
+    selection = cmds.ls(sl=True, dag=True, long=True)
+    if not selection:
+        cmds.confirmDialog(title='Error', message='You not select Group Object ', button=['OK'], defaultButton='OK')
+    else:
+        for select in selection:
+            cmds.makeIdentity(select , apply=True)
+    label.setText("Freeze transformations is success")
 
 def on_button_clear():
     list_widget.clear()
