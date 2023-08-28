@@ -35,6 +35,8 @@ for i in range(50):
     scalingXYZ = random.uniform(0.3, 1.5)
     cmds.scale(scalingXYZ, scalingXYZ, scalingXYZ, createCube)
     
+# set Pivot center in groupName
 cmds.xform(groupName, centerPivots=True)
 
+# hide transformName
 cmds.hide(transformName)
